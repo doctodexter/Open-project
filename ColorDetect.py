@@ -6,43 +6,15 @@ import numpy as np
 
 import cv2
 
-
-
-# Capturing video through webcam
+import math
 
 webcam = cv2.VideoCapture(0)
 
-
-
-# Start a while loop
-
 while (1):
-
-
-
-    # Reading the video from the
-
-    # webcam in image frames
 
     _, imageFrame = webcam.read()
 
-
-
-    # Convert the imageFrame in
-
-    # BGR(RGB color space) to
-
-    # HSV(hue-saturation-value)
-
-    # color space
-
     hsvFrame = cv2.cvtColor(imageFrame, cv2.COLOR_BGR2HSV)
-
-
-
-    # Set range for red color and
-
-    # define mask
 
     red_lower = np.array([136, 87, 111], np.uint8)
 
@@ -70,15 +42,11 @@ while (1):
 
                               mask=red_mask)
 
-
-
     green_mask = cv2.dilate(green_mask, kernel)
 
     res_green = cv2.bitwise_and(imageFrame, imageFrame,
 
                                 mask=green_mask)
-
-
 
     blue_mask = cv2.dilate(blue_mask, kernel)
 
@@ -120,6 +88,16 @@ while (1):
 
             y2 = (y + h)/2
 
+            dist = math.dist((x2,y2),(160,120))
+
+            if(dist < 25):
+
+                print("poza")
+
+            else:
+
+                print("nu poza")
+
             imageFrame = cv2.rectangle(imageFrame, (x, y),
 
                                        (x+w, y+h),
@@ -128,7 +106,7 @@ while (1):
 
                     
 
-            cv2.putText(imageFrame, "", (x ,y),
+            cv2.putText(imageFrame, "Roata", (x ,y),
 
                         cv2.FONT_HERSHEY_SIMPLEX,
 
